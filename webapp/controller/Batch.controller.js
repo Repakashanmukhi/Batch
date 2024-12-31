@@ -97,6 +97,9 @@ sap.ui.define([
             oSelectedItems:function(oEvent){
                 oSelectedPath = oEvent.getSource().getSelectedContextPaths()
             },
+            onDelete: function(){
+                
+            }
         
     });
 });
