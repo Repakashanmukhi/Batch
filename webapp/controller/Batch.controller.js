@@ -12,10 +12,7 @@ sap.ui.define([
         onInit() 
         {
             that=this;
-            // var oEmployeeModel = new sap.ui.model.json.JSONModel({
-            //     Employees: []
-            // });
-            // that.getView().setModel(oEmployeeModel, "employeeModel");
+    
             
             var TempEmployee = new JSONModel({
                 Employees: []
@@ -98,8 +95,32 @@ sap.ui.define([
                 oSelectedPath = oEvent.getSource().getSelectedContextPaths()
             },
             onDelete: function(){
-                
-            }
-        
+                var oTable = this.byId("employeeTable"); 
+                var aSelectedItems = oTable.getSelectedItems()
+               var oModel =this.getView().getModel();
+               var aPath=[];
+               aSelectedItems.forEach(function(oItem) {
+                var oContext = oItem.getBindingContext();
+                var sPath = oContext.getPath();
+                aPath.push(sPath);
+               });
+               var deleteNextRecord = function() {
+                if (aPath.length > 0) {
+                    var sPath = aPath.pop();              
+                    oModel.remove(sPath, {
+                        success: function() {
+                            deleteNextRecord();  
+                        },
+                        error: function() {
+                            sap.m.MessageToast.show("Error deleting record at path: " + sPath);
+                            deleteNextRecord();  
+                        }
+                    });
+                } else {
+                    sap.m.MessageToast.show("All selected records deleted successfully!");
+                }
+            };
+            deleteNextRecord();
+        }
     });
 });

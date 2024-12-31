@@ -3,17 +3,32 @@
     xmlns="sap.m">
     <Page id="page" title="{i18n>title}">
      <content>
+     <FlexBox >
+        <HBox >
+             
+        </HBox>
+     </FlexBox>
     </content>
     <subHeader>
             <Bar>
-                <contentRight>
+            <contentLeft>
+                <ComboBox ></ComboBox>
+                <ComboBox ></ComboBox>
+                <ComboBox ></ComboBox>
+            </contentLeft>
+                <contentMiddle>
+                    <SearchField suggestionItems="{path: '/EmployeeInfo',sorter: { path: 'Name' }}">
+                    <SuggestionItem text="{Name}"  />
+		            </SearchField>
+                    </contentMiddle>
+                    <contentRight>
                     <Button text="Create" press="onCreateDialog"></Button>
                     <Button text="Update" press="onUpdateDialog"></Button>
                     <Button text="Delete" press="onDelete"></Button>
                 </contentRight>
             </Bar>
         </subHeader> 
-    <Table id="employeeTable" growing="true" growingThreshold="5" items="{/EmployeeInfo}" mode="MultiSelect" selectionChange="oSelectedItems">
+    <Table id="employeeTable" growing="true" growingThreshold="5" items="{path: '/EmployeeInfo'}" mode="MultiSelect" selectionChange="oSelectedItems">
     <columns>
         <Column> 
             <Text text="EmpId"/>
