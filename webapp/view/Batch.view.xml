@@ -1,0 +1,60 @@
+<mvc:View controllerName="batchoperations.controller.Batch"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns="sap.m">
+    <Page id="page" title="{i18n>title}">
+     <content>
+    </content>
+    <subHeader>
+            <Bar>
+                <contentRight>
+                    <Button text="Create" press="onCreateDialog"></Button>
+                    <Button text="Update" press="onUpdateDialog"></Button>
+                    <Button text="Delete" press="onDelete"></Button>
+                </contentRight>
+            </Bar>
+        </subHeader> 
+    <Table id="employeeTable" growing="true" growingThreshold="5" items="{/EmployeeInfo}" mode="MultiSelect" selectionChange="oSelectedItems">
+    <columns>
+        <Column> 
+            <Text text="EmpId"/>
+        </Column>
+        <Column>
+            <Text text="FirstName"/>
+        </Column>
+        <Column>
+            <Text text="Email"/>
+        </Column>
+        <Column>
+            <Text text="Phone"/>
+        </Column>
+         <Column>
+            <Text text="BloodGroup"/>
+        </Column>
+        <Column> 
+            <Text text="Department"/>
+        </Column>
+        <Column>
+            <Text text="Position"/>
+        </Column>
+        <Column>
+            <Text text="JoiningDate"/>
+        </Column>
+    </columns>
+    <items>
+        <ColumnListItem>
+            <cells>
+                <Text text="{ID}"/>
+                <Text text="{FirstName}"/>
+                <Text text="{Email}"/>
+                <Text text="{Phone}"/>
+                <Text text="{BloodGroup}"/>
+                <Text text="{Department}"/>
+                <Text text="{Position}"/>
+                <!-- <Text text="{JoiningDate}"></Text> -->
+                <Text text="{path: 'JoiningDate', formatter: '.formatter.formatJoiningDate'}" />
+            </cells>
+        </ColumnListItem>
+    </items>
+</Table>
+    </Page>
+</mvc:View>

@@ -1,0 +1,66 @@
+<core:FragmentDefinition xmlns:layout="sap.ui.layout" xmlns:core= "sap.ui.core" xmlns:f="sap.ui.layout.form" 
+xmlns="sap.m">
+<Dialog id="create" title="Employee Details ">
+         <customHeader>
+             <Bar>
+                <contentLeft>
+                     <Text text="Employee Details"></Text>
+                </contentLeft>
+                <contentRight>
+                    <Button icon="sap-icon://add" press="onAddRow"></Button>
+                </contentRight>
+             </Bar>
+         </customHeader> 
+               <VBox class="sapUiTinyMargin"> 
+                <!-- <Button icon="sap-icon://add" press="onOpenDialog"></Button> -->
+                    <Label text="FirstName" />
+                    <Input id="efirstName" width="250px" editable="true"/>
+                    <Label text="Email"/>
+                    <Input id="eEmail" width="250px" editable="true"/>
+                    <Label text="Phone"/>
+                    <Input id="ePhone" width="250px" editable="true"/>
+                      <Label text="BloodGroup"/>
+                    <Input id="eBloodGroup" width="250px" editable="true"/>
+                    <Label text="Department" />
+                    <Input id="edepartment" width="250px" editable="true"/>
+                    <Label text="Position" />
+                    <Input id="eposition" width="250px" editable="true"/>
+                    <Label text="Joining Date" />
+                    <Input id="eJoiningDate" width="250px" editable="true"/> 
+               </VBox>
+ 
+        <!-- <Table id="TempTable" items="{employeeModel>/Employees}">
+    <columns>
+        <Column><Label text="FirstName"></Label></Column>
+        <Column><Label text="Email"></Label></Column>
+        <Column><Label text="Phone"></Label></Column>
+        <Column><Label text="BloodGroup"></Label></Column>
+        <Column><Label text="Department"></Label></Column>
+        <Column><Label text="Position"></Label></Column>
+        <Column><Label text="Joining Date"></Label></Column>
+    </columns>
+    <items>
+        <ColumnListItem>
+            <cells>
+                <Text text="{employeeModel>FirstName}"></Text>
+                <Text text="{employeeModel>Email}"></Text>
+                <Text text="{employeeModel>Phone}"></Text>
+                <Text text="{employeeModel>BloodGroup}"></Text>
+                <Text text="{employeeModel>Department}"></Text>
+                <Text text="{employeeModel>Position}"></Text>
+                <Text text="{employeeModel>JoiningDate}"></Text>
+            </cells>
+        </ColumnListItem>
+    </items>
+</Table> -->
+
+       <footer>
+               <Toolbar>
+               <ToolbarSpacer/>
+            <Button text="Submit" press="onSubmitDialog"></Button>
+            <Button text="Reset" press="onClear"></Button>
+            <Button text="Close" press="onclose"></Button>
+           </Toolbar>
+        </footer>
+</Dialog>
+</core:FragmentDefinition>
