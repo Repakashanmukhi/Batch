@@ -1,0 +1,93 @@
+<!-- <core:FragmentDefinition xmlns:layout="sap.ui.layout" xmlns:core= "sap.ui.core" xmlns:f="sap.ui.layout.form" 
+xmlns="sap.m">
+<Dialog id="update" title="Update Details" >
+       <subHeader>
+            <Bar>
+                <contentRight>
+                     <Button type="Accept" text="Save" press="Save"></Button>
+                </contentRight>
+            </Bar>
+        </subHeader>
+        <Table id="updateTable" items="{/Employees}">
+        <columns>   
+                <Column ><Text text="EmpId" id="uID"></Text></Column>
+                <Column ><Text text="FirstName" id="uFN"></Text></Column>
+                <Column ><Text text="Email" id="uEmail"></Text></Column>
+                <Column ><Text text="Phone" id="uPhone"></Text></Column>
+                <Column ><Text text="BloodGroup" id="uBloodGroup"></Text></Column>
+                <Column ><Text text="Department" id="uDept"></Text></Column>
+                <Column ><Text text="Position" id="uPosition"></Text></Column>
+                <Column ><Text text="JoiningDate" id="uJD"></Text></Column>
+        </columns>
+        <items>
+            <ColumnListItem >
+                <Text text="{employeeModel>/ID}"></Text>
+                <Text text="{employeeModel>/FirstName}"></Text>
+                <Text text="{employeeModel>/Email}"></Text>
+                <Text text="{employeeModel>/Phone}"></Text>
+                <Text text="{employeeModel>/BloodGroup}"></Text>
+                <Text text="{employeeModel>/Department}"></Text>
+                <Text text="{employeeModel>/Position}"></Text>
+                <Text text="{employeeModel>/JoiningDate}"></Text>
+
+            </ColumnListItem>
+        </items>
+        </Table>
+</Dialog>
+</core:FragmentDefinition> -->
+
+<core:FragmentDefinition xmlns:layout="sap.ui.layout" xmlns:core="sap.ui.core" xmlns:f="sap.ui.layout.form" 
+xmlns="sap.m">
+    <Dialog id="update" title="Update Details">
+        <subHeader>
+            <Bar>
+                <contentRight>
+                    <Button type="Accept" text="Save" press="onSave"></Button>
+                     <Button type="Reject" text="Close" press="onClose"></Button>
+                </contentRight>
+            </Bar>
+        </subHeader>
+        <Table id="updateTable" items="{selectedEmployeesModel>/selectedEmployees}">
+            <columns>
+                <Column>
+                    <Text text="EmpId" id="uID"></Text>
+                </Column>
+                <Column>
+                    <Text text="FirstName" id="uFN"></Text>
+                </Column>
+                <Column>
+                    <Text text="Email" id="uEmail"></Text>
+                </Column>
+                <Column>
+                    <Text text="Phone" id="uPhone"></Text>
+                </Column>
+                <Column>
+                    <Text text="BloodGroup" id="uBloodGroup"></Text>
+                </Column>
+                <Column>
+                    <Text text="Department" id="uDept"></Text>
+                </Column>
+                <Column>
+                    <Text text="Position" id="uPosition"></Text>
+                </Column>
+                <Column>
+                    <Text text="JoiningDate" id="uJD"></Text>
+                </Column>
+            </columns>
+            <items>
+                <ColumnListItem>
+                    <cells>
+                        <Input value="{selectedEmployeesModel>ID}"></Input>
+                        <Input value="{selectedEmployeesModel>FirstName}"></Input>
+                        <Input value="{selectedEmployeesModel>Email}"></Input>
+                        <Input value="{selectedEmployeesModel>Phone}"></Input>
+                        <Input value="{selectedEmployeesModel>BloodGroup}"></Input>
+                        <Input value="{selectedEmployeesModel>Department}"></Input>
+                        <Input value="{selectedEmployeesModel>Position}"></Input>
+                        <Input value="{path: 'JoiningDate', formatter: '.formatter.formatJoiningDate'}"></Input>
+                    </cells>
+                </ColumnListItem>
+            </items>
+        </Table>
+    </Dialog>
+</core:FragmentDefinition>

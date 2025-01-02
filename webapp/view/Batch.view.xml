@@ -3,21 +3,20 @@
     xmlns="sap.m">
     <Page id="page" title="{i18n>title}">
      <content>
-     <FlexBox >
-        <HBox >
-             
-        </HBox>
-     </FlexBox>
     </content>
     <subHeader>
             <Bar>
             <contentLeft>
-                <ComboBox ></ComboBox>
+                  <!-- <ComboBox id= "Dept" items="{/EmployeeInfo}" selectionChange="onFilterChange" >  
+                    <items>
+                        <core:Item id="Dept1"  text="{Department}"   key="{ID}" ></core:Item>
+                    </items>
+                </ComboBox>  -->
                 <ComboBox ></ComboBox>
                 <ComboBox ></ComboBox>
             </contentLeft>
                 <contentMiddle>
-                    <SearchField suggestionItems="{path: '/EmployeeInfo',sorter: { path: 'Name' }}">
+                    <SearchField suggestionItems="{path: '/EmployeeInfo',sorter: { path: 'FirstName' }}" search="onSearch" suggest="onSuggest" enableSuggestions="true">
                     <SuggestionItem text="{Name}"  />
 		            </SearchField>
                     </contentMiddle>
