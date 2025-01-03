@@ -202,27 +202,71 @@ sap.ui.define([
         Depart: function(oEvent){
         var oComboBox=oEvent.getSource();
         var sSelectedkey=oComboBox.getSelectedKey();
-        var oModel=that.getView().getModel();
+        var oModel=that.getOwnerComponent().getModel();
         if(!sSelectedkey){
             oModel.setProperty("/EmployeeInfo",oModel.getProperty("/Employees"));
             return;
         }
         var aFilter=[];
             if(sSelectedkey){
-                var oFilter = new Filter("Department", FilterOperator.EQ, sSelectedkey);
+                var oFilter = new Filter("ID", FilterOperator.EQ, sSelectedkey);
                 aFilter.push(oFilter);
             }
             var oBind=that.getView().byId("employeeTable")
             var oBinding=oBind.getBinding("items");
             oBinding.filter(aFilter);
          },
-        // onSearch: function(oEvent){
-        //     var oItem = oEvent.getParameter("suggestionItem");
-		// 	if (oItem) {
-		// 		MessageToast.show("Search for: " + oItem.getText());
-		// 	} else {
-		// 		MessageToast.show("Search is fired!");
-		// 	}
-		// },
+         Postion: function(oResponse){
+            var oComboBox=oResponse.getSource();
+            var sSelectedkey=oComboBox.getSelectedKey();
+            var oModel=that.getOwnerComponent().getModel();
+            if(!sSelectedkey){
+                oModel.setProperty("/EmployeeInfo",oModel.getProperty("/Employees"));
+                return;
+            }
+            var aFilter=[];
+                if(sSelectedkey){
+                    var oFilter = new Filter("ID", FilterOperator.EQ, sSelectedkey);
+                    aFilter.push(oFilter);
+                }
+                var oBind=that.getView().byId("employeeTable")
+                var oBinding=oBind.getBinding("items");
+                oBinding.filter(aFilter);
+        },
+        BloodGroup: function(oReact){
+            var oComboBox=oReact.getSource();
+            var sSelectedkey=oComboBox.getSelectedKey();
+            var oModel=that.getOwnerComponent().getModel();
+            if(!sSelectedkey){
+                oModel.setProperty("/EmployeeInfo",oModel.getProperty("/Employees"));
+                return;
+            }else{
+            var aFilter=[];
+                if(sSelectedkey){
+                    var oFilter = new Filter("ID", FilterOperator.EQ, sSelectedkey);
+                    aFilter.push(oFilter);
+                }
+            }
+                var oBind=that.getView().byId("employeeTable")
+                var oBinding=oBind.getBinding("items");
+                oBinding.filter(aFilter);
+        },
+    
+         onSearch: function(aSearch){
+            var oFilter = [];
+            var sSearch = aSearch.getSource().getValue();
+            var oModel=that.getOwnerComponent().getModel();
+            if(!sSearch){
+                oModel.setProperty("/EmployeeInfo",oModel.getProperty("/Employees"));
+                return;
+            }
+            if(sSearch){
+                var aFilter=new Filter("ID",FilterOperator.EQ, sSearch)
+                oFilter.push(aFilter)
+            }
+            var oList = that.getView().byId("employeeTable");
+            var oBinding = oList.getBinding("items");
+            oBinding.filter(oFilter);
+		},
     });
 });
