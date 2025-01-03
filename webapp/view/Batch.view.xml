@@ -26,10 +26,9 @@
             </ComboBox>
             </contentLeft>
                 <contentMiddle>
-                    <SearchField suggestionItems="{'/EmployeeInfo'}" search="onSearch" suggest="onSuggest" enableSuggestions="true">
-                    <SuggestionItem text="{Name}"/>
+                    <SearchField search="onSearch" suggest="onSuggest" enableSuggestions="true">
 		            </SearchField>
-                    </contentMiddle>
+                </contentMiddle>
                     <contentRight>
                     <Button text="Create" press="onCreateDialog"></Button>
                     <Button text="Update" press="onUpdateDialog"></Button>

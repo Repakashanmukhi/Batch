@@ -255,13 +255,13 @@ sap.ui.define([
          onSearch: function(aSearch){
             var oFilter = [];
             var sSearch = aSearch.getSource().getValue();
-            var oModel=that.getOwnerComponent().getModel();
-            if(!sSearch){
-                oModel.setProperty("/EmployeeInfo",oModel.getProperty("/Employees"));
-                return;
-            }
+            // var oModel=that.getOwnerComponent().getModel();
+            // if(!sSearch){
+            //     oModel.setProperty("/EmployeeInfo",oModel.getProperty("/Employees"));
+            //     return;
+            // }
             if(sSearch){
-                var aFilter=new Filter("ID",FilterOperator.EQ, sSearch)
+                var aFilter=new Filter("FirstName",FilterOperator.EQ, sSearch)
                 oFilter.push(aFilter)
             }
             var oList = that.getView().byId("employeeTable");
