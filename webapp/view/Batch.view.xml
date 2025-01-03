@@ -1,4 +1,4 @@
-<mvc:View controllerName="batchoperations.controller.Batch"
+<mvc:View xmlns:core="sap.ui.core" controllerName="batchoperations.controller.Batch"
     xmlns:mvc="sap.ui.core.mvc"
     xmlns="sap.m">
     <Page id="page" title="{i18n>title}">
@@ -7,17 +7,27 @@
     <subHeader>
             <Bar>
             <contentLeft>
-                  <!-- <ComboBox id= "Dept" items="{/EmployeeInfo}" selectionChange="onFilterChange" >  
-                    <items>
-                        <core:Item id="Dept1"  text="{Department}"   key="{ID}" ></core:Item>
-                    </items>
-                </ComboBox>  -->
-                <ComboBox ></ComboBox>
-                <ComboBox ></ComboBox>
+            <ComboBox items="{/EmployeeInfo}" selectionChange="Depart" id="Dept1" showClearIcon="true">
+                <items>
+                    <core:Item key="{ID}" text="{Department}">
+                    </core:Item>
+                </items>
+            </ComboBox>
+            <ComboBox items="{/EmployeeInfo}" selectionChange="Postion" id="postion1" showClearIcon="true">
+                <items>
+                    <core:Item key="{ID}" text="{Position}">
+                    </core:Item>
+                </items>
+            </ComboBox>
+            <ComboBox items="{/EmployeeInfo}" selectionChange="BloodGroup" id="BG1" showClearIcon="true">
+                <items>
+                    <core:Item key="{ID}" text="{BloodGroup}"></core:Item>
+                </items>
+            </ComboBox>
             </contentLeft>
                 <contentMiddle>
                     <SearchField suggestionItems="{path: '/EmployeeInfo',sorter: { path: 'FirstName' }}" search="onSearch" suggest="onSuggest" enableSuggestions="true">
-                    <SuggestionItem text="{Name}"  />
+                    <SuggestionItem text="{Name}"/>
 		            </SearchField>
                     </contentMiddle>
                     <contentRight>

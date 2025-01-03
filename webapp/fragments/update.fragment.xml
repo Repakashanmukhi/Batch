@@ -84,7 +84,7 @@ xmlns="sap.m">
                         <Input value="{selectedEmployeesModel>BloodGroup}"></Input>
                         <Input value="{selectedEmployeesModel>Department}"></Input>
                         <Input value="{selectedEmployeesModel>Position}"></Input>
-                        <Input value="{path: 'JoiningDate', formatter: '.formatter.formatJoiningDate'}"></Input>
+                        <Input value="{selectedEmployeesModel>JoiningDate}"></Input>
                     </cells>
                 </ColumnListItem>
             </items>

@@ -2,8 +2,10 @@ sap.ui.define([
      "sap/ui/core/mvc/Controller",
      "sap/ui/model/json/JSONModel", 
      "batchoperations/model/formatter",
-     "sap/m/MessageToast"
-], (Controller,JSONModel,formatter,MessageToast) => {
+     "sap/m/MessageToast",
+     "sap/ui/model/Filter",
+     "sap/ui/model/FilterOperator"
+], (Controller,JSONModel,formatter,MessageToast,Filter,FilterOperator) => {
     "use strict";
      var that;
      var oSelectedPath =[]
@@ -119,20 +121,14 @@ sap.ui.define([
             var aSelectedEmployees = oSelectedEmployeesModel.getProperty("/selectedEmployees");
             var oEmployeeModel = this.getView().getModel("employeeModel");
             var aEmployees = oEmployeeModel.getProperty("/Employees");
-            for (var i = 0; i < aSelectedEmployees.length; i++) {
-                var oSelectedEmployee = aSelectedEmployees[i];
-                var index = aEmployees.findIndex(function (oEmployee) {
-                    return oEmployee.Email === oSelectedEmployee.Email;
+             var index = aEmployees.findIndex(function (oEmployee) {
+                    return oEmployee.ID === oSelectedEmployee.ID;
                 });
                 if (index !== -1) {
                     aEmployees[index] = Object.assign({}, aEmployees[index], oSelectedEmployee);
                 }
-            }
-            oEmployeeModel.setProperty("/Employees", aEmployees);
-            // Updating Single row
-            var oData = this.getOwnerComponent().getModel();
-            for (var j = 0; j < aSelectedEmployees.length; j++) {
-                var oEmployee = aSelectedEmployees[j];
+            for (var i = 0; i < aSelectedEmployees.length; i++) {
+                var oEmployee = aSelectedEmployees[i];
                 var oUpdatedEmployee = {
                     FirstName: oEmployee.FirstName,
                     Email: oEmployee.Email,
@@ -141,18 +137,37 @@ sap.ui.define([
                     Department: oEmployee.Department,
                     Position: oEmployee.Position,
                     JoiningDate: oEmployee.JoiningDate
-                };
-                oData.update("/EmployeeInfo('" + oEmployee.Email + "')", oUpdatedEmployee, {
-                    success: function () {
-                        MessageToast.show("Employee data updated successfully!");
+                };        
+                var oData = this.getOwnerComponent().getModel();
+                var updatePath = "/EmployeeInfo,oData (' "+oUpdatedEmployee.FirstName+" ')";
+                // var updatePath = `/EmployeeInfo(guid'${oUpdatedEmployee.Email}')`
+                oData.update(updatePath, oUpdatedEmployee,{
+                    success: function()
+                    {
+                        sap.m.MessageToast.show("Record updated successfully!");
                     },
-                    error: function () {
-                        MessageToast.show("Error updating employee data!");
-                    }
-                });
+                error: function (error) 
+                {
+                console.log(error)
+                MessageToast.show("Cannot update record");
+                }
+           })
             }
-        
         },
+            // var oSelectedEmployee = aSelectedEmployees[i];
+            // var index = aEmployees.findIndex(function (oEmployee) {
+            //     return oEmployee.ID === oSelectedEmployee.ID;
+            // });
+            // if (index !== -1) {
+            //     aEmployees[index] = Object.assign({}, aEmployees[index], oSelectedEmployee);
+            // }
+            // }
+            // oEmployeeModel.setProperty("/Employees", aEmployees);
+            // // Updating Single row
+            // var oData = this.getOwnerComponent().getModel();
+            // for (var j = 0; j < aSelectedEmployees.length; j++) {
+                
+        
         onClose: function(){
             that.update.close();
         },
@@ -184,32 +199,48 @@ sap.ui.define([
             };
             deleteNextRecord();
         },
-        onSearch: function(oEvent){
-            var oItem = oEvent.getParameter("suggestionItem");
-			if (oItem) {
-				MessageToast.show("Search for: " + oItem.getText());
-			} else {
-				MessageToast.show("Search is fired!");
-			}
-		},
-        onSuggest: function(event){
-            var sValue = event.getParameter("suggestValue"),
-				aFilters = [];
-			if (sValue) {
-				aFilters = [
-					new Filter([
-						new Filter("ProductId", function (sText) {
-							return (sText || "").toUpperCase().indexOf(sValue.toUpperCase()) > -1;
-						}),
-						new Filter("Name", function (sDes) {
-							return (sDes || "").toUpperCase().indexOf(sValue.toUpperCase()) > -1;
-						})
-					], false)
-				];
-			}
-
-			this.oSF.getBinding("suggestionItems").filter(aFilters);
-			this.oSF.suggest();        
+        Depart: function(oEvent){
+        var oComboBox=oEvent.getSource();
+        var sSelectedkey=oComboBox.getSelectedKey();
+        var oModel=that.getView().getModel();
+        if(!sSelectedkey){
+            oModel.setProperty("/EmployeeInfo",oModel.getProperty("/Employees"));
+            return;
+        }
+        var aFilter=[];
+            if(sSelectedkey){
+                var oFilter = new Filter("Department", FilterOperator.EQ, sSelectedkey);
+                aFilter.push(oFilter);
+            }
+            var oBinding=oComboBox.getBinding("items");
+            oBinding.filter(aFilter);
         },
+        // onSearch: function(oEvent){
+        //     var oItem = oEvent.getParameter("suggestionItem");
+		// 	if (oItem) {
+		// 		MessageToast.show("Search for: " + oItem.getText());
+		// 	} else {
+		// 		MessageToast.show("Search is fired!");
+		// 	}
+		// },
+
+        // onSuggest: function(event){
+        //     var sValue = event.getParameter("suggestValue"),
+		// 		aFilters = [];
+		// 	if (sValue) {
+		// 		aFilters = [
+		// 			new Filter([
+		// 				new Filter("ProductId", function (sText) {
+		// 					return (sText || "").toUpperCase().indexOf(sValue.toUpperCase()) > -1;
+		// 				}),
+		// 				new Filter("Name", function (sDes) {
+		// 					return (sDes || "").toUpperCase().indexOf(sValue.toUpperCase()) > -1;
+		// 				})
+		// 			], false)
+		// 		];
+		// 	}
+		// 	this.oSF.getBinding("suggestionItems").filter(aFilters);
+		// 	this.oSF.suggest();        
+        // },
     });
 });
