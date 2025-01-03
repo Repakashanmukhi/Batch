@@ -212,9 +212,10 @@ sap.ui.define([
                 var oFilter = new Filter("Department", FilterOperator.EQ, sSelectedkey);
                 aFilter.push(oFilter);
             }
-            var oBinding=oComboBox.getBinding("items");
+            var oBind=that.getView().byId("employeeTable")
+            var oBinding=oBind.getBinding("items");
             oBinding.filter(aFilter);
-        },
+         },
         // onSearch: function(oEvent){
         //     var oItem = oEvent.getParameter("suggestionItem");
 		// 	if (oItem) {
@@ -223,24 +224,5 @@ sap.ui.define([
 		// 		MessageToast.show("Search is fired!");
 		// 	}
 		// },
-
-        // onSuggest: function(event){
-        //     var sValue = event.getParameter("suggestValue"),
-		// 		aFilters = [];
-		// 	if (sValue) {
-		// 		aFilters = [
-		// 			new Filter([
-		// 				new Filter("ProductId", function (sText) {
-		// 					return (sText || "").toUpperCase().indexOf(sValue.toUpperCase()) > -1;
-		// 				}),
-		// 				new Filter("Name", function (sDes) {
-		// 					return (sDes || "").toUpperCase().indexOf(sValue.toUpperCase()) > -1;
-		// 				})
-		// 			], false)
-		// 		];
-		// 	}
-		// 	this.oSF.getBinding("suggestionItems").filter(aFilters);
-		// 	this.oSF.suggest();        
-        // },
     });
 });
