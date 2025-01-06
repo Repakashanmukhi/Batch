@@ -122,7 +122,7 @@ sap.ui.define([
             var oEmployeeModel = this.getView().getModel("employeeModel");
             var aEmployees = oEmployeeModel.getProperty("/Employees");
              var index = aEmployees.findIndex(function (oEmployee) {
-                    return oEmployee.ID === oSelectedEmployee.ID;
+                    return oEmployee.ID === aSelectedEmployees.ID;
                 });
                 if (index !== -1) {
                     aEmployees[index] = Object.assign({}, aEmployees[index], oSelectedEmployee);
@@ -140,7 +140,6 @@ sap.ui.define([
                 };        
                 var oData = this.getOwnerComponent().getModel();
                 var updatePath = "/EmployeeInfo,oData (' "+oUpdatedEmployee.FirstName+" ')";
-                // var updatePath = `/EmployeeInfo(guid'${oUpdatedEmployee.Email}')`
                 oData.update(updatePath, oUpdatedEmployee,{
                     success: function()
                     {
@@ -154,20 +153,6 @@ sap.ui.define([
            })
             }
         },
-            // var oSelectedEmployee = aSelectedEmployees[i];
-            // var index = aEmployees.findIndex(function (oEmployee) {
-            //     return oEmployee.ID === oSelectedEmployee.ID;
-            // });
-            // if (index !== -1) {
-            //     aEmployees[index] = Object.assign({}, aEmployees[index], oSelectedEmployee);
-            // }
-            // }
-            // oEmployeeModel.setProperty("/Employees", aEmployees);
-            // // Updating Single row
-            // var oData = this.getOwnerComponent().getModel();
-            // for (var j = 0; j < aSelectedEmployees.length; j++) {
-                
-        
         onClose: function(){
             that.update.close();
         },
@@ -255,18 +240,13 @@ sap.ui.define([
          onSearch: function(aSearch){
             var oFilter = [];
             var sSearch = aSearch.getSource().getValue();
-            // var oModel=that.getOwnerComponent().getModel();
-            // if(!sSearch){
-            //     oModel.setProperty("/EmployeeInfo",oModel.getProperty("/Employees"));
-            //     return;
-            // }
             if(sSearch){
-                var aFilter=new Filter("FirstName",FilterOperator.EQ, sSearch)
+                var aFilter=new Filter("FirstName",FilterOperator.Contains, sSearch)
                 oFilter.push(aFilter)
             }
-            var oList = that.getView().byId("employeeTable");
-            var oBinding = oList.getBinding("items");
-            oBinding.filter(oFilter);
+            var oBind=that.getView().byId("employeeTable")
+                var oBinding=oBind.getBinding("items");
+                oBinding.filter(oFilter);
 		},
     });
 });
