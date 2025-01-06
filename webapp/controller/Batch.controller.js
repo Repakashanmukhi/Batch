@@ -15,12 +15,14 @@ sap.ui.define([
         onInit() 
         {
             that=this;
+            // Creating JSON model to store data temporarily using array
             var oModel=that.getOwnerComponent().getModel();
             that.getView().setModel(oModel)
             var TempEmployee = new JSONModel({
                 Employees: []
             });
             that.getView().setModel(TempEmployee, "employeeModel");
+            // Opening create fragment 
             if(!that.create){
             that.create=sap.ui.xmlfragment("batchoperations.fragments.create",that)
             }
@@ -35,6 +37,7 @@ sap.ui.define([
                 that.create.close(); 
             }
         },
+        // To add the data into the input fileds when we click + button
         onAddRow: function() {
             var oView = that.getView();
             var oEmployeeModel = oView.getModel("employeeModel");
@@ -53,6 +56,7 @@ sap.ui.define([
             oEmployeeModel.setProperty("/Employees", aEmployees);              
             that.onClear(); 
         },
+        // Clearing the input fileds
         onClear: function () 
         {
             sap.ui.getCore().byId("efirstName").setValue(""); 
@@ -63,7 +67,8 @@ sap.ui.define([
             sap.ui.getCore().byId("eposition").setValue("");
             sap.ui.getCore().byId("eJoiningDate").setValue("");
         },
-             onSubmitDialog: function() {
+        // To store the created data into the OData model (Backside table)
+        onSubmitDialog: function() {
                 var oEmployeeModel = this.getView().getModel("employeeModel");
                 var aEmployees = oEmployeeModel.getProperty("/Employees");
                 var oData = this.getOwnerComponent().getModel(); 
@@ -94,14 +99,17 @@ sap.ui.define([
                 oEmployeeModel.setProperty("/Employees", []);
                 that.onclose();
             },
+            // Selects the required record 
             oSelectedItems:function(oEvent){
                 oSelectedPath = oEvent.getSource().getSelectedContextPaths()
             },
+            // Opening update fragment
             onUpdateDialog: function(){
             if (!that.update) {
                 that.update = sap.ui.xmlfragment("batchoperations.fragments.update", that);
             }
             that.update.open();  
+            // gets the selected record data into the update fragment
             var oModel = that.getView().getModel("employeeModel");
             var eStore = oModel.getProperty("/Employees");
             var oTable = that.getView().byId("employeeTable");
@@ -116,6 +124,7 @@ sap.ui.define([
             oSelectedEmployeesModel.setData({ selectedEmployees: selectedEmployees });
             that.update.setModel(oSelectedEmployeesModel, "selectedEmployeesModel");
         },
+        // Stores the updated data into the table
         onSave: function(){
             var oSelectedEmployeesModel = that.update.getModel("selectedEmployeesModel");
             var aSelectedEmployees = oSelectedEmployeesModel.getProperty("/selectedEmployees");
@@ -156,6 +165,7 @@ sap.ui.define([
         onClose: function(){
             that.update.close();
         },
+        // Deletes multiple records at a time 
             onDelete: function(){ 
                 var oTable = this.byId("employeeTable"); 
                 var aSelectedItems = oTable.getSelectedItems()
@@ -184,6 +194,7 @@ sap.ui.define([
             };
             deleteNextRecord();
         },
+        // Combo box for department field
         Depart: function(oEvent){
         var oComboBox=oEvent.getSource();
         var sSelectedkey=oComboBox.getSelectedKey();
@@ -201,6 +212,7 @@ sap.ui.define([
             var oBinding=oBind.getBinding("items");
             oBinding.filter(aFilter);
          },
+         // Combo box for Position field
          Postion: function(oResponse){
             var oComboBox=oResponse.getSource();
             var sSelectedkey=oComboBox.getSelectedKey();
@@ -218,6 +230,7 @@ sap.ui.define([
                 var oBinding=oBind.getBinding("items");
                 oBinding.filter(aFilter);
         },
+        // Combo box for Blood group field
         BloodGroup: function(oReact){
             var oComboBox=oReact.getSource();
             var sSelectedkey=oComboBox.getSelectedKey();
@@ -236,7 +249,7 @@ sap.ui.define([
                 var oBinding=oBind.getBinding("items");
                 oBinding.filter(aFilter);
         },
-    
+        // Search bar using first letter
          onSearch: function(aSearch){
             var oFilter = [];
             var sSearch = aSearch.getSource().getValue();
