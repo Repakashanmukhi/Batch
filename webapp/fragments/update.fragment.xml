@@ -39,14 +39,6 @@ xmlns="sap.m">
 <core:FragmentDefinition xmlns:layout="sap.ui.layout" xmlns:core="sap.ui.core" xmlns:f="sap.ui.layout.form" 
 xmlns="sap.m">
     <Dialog id="update" title="Update Details">
-        <subHeader>
-            <Bar>
-                <contentRight>
-                    <Button type="Accept" text="Save" press="onSave"></Button>
-                     <Button type="Reject" text="Close" press="onClose"></Button>
-                </contentRight>
-            </Bar>
-        </subHeader>
         <Table id="updateTable" items="{selectedEmployeesModel>/selectedEmployees}">
             <columns>
                 <Column>
@@ -77,17 +69,25 @@ xmlns="sap.m">
             <items>
                 <ColumnListItem>
                     <cells>
-                        <Input value="{selectedEmployeesModel>ID}"></Input>
+                        <Input value="{selectedEmployeesModel>ID}" editable="false"></Input>
                         <Input value="{selectedEmployeesModel>FirstName}"></Input>
                         <Input value="{selectedEmployeesModel>Email}"></Input>
-                        <Input value="{selectedEmployeesModel>Phone}"></Input>
+                        <Input value="{selectedEmployeesModel>Phone}" type="Tel"></Input>
                         <Input value="{selectedEmployeesModel>BloodGroup}"></Input>
                         <Input value="{selectedEmployeesModel>Department}"></Input>
-                        <Input value="{selectedEmployeesModel>Position}"></Input>
-                        <Input value="{selectedEmployeesModel>JoiningDate}"></Input>
+                        <Select name="{selectedEmployeesModel>Positon}" width="250px" editable="true"></Select>
+                        <Input value="{selectedEmployeesModel>JoiningDate}" type="Date"></Input>
                     </cells>
                 </ColumnListItem>
             </items>
         </Table>
+        <footer>
+        <Toolbar>
+               <ToolbarSpacer/>
+        <Button type="Accept" text="Save" press="onSave"></Button>
+        <Button type="Reject" text="Close" press="onClose"></Button>
+                </Toolbar>
+                
+        </footer>
     </Dialog>
 </core:FragmentDefinition>

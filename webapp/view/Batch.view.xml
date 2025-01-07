@@ -7,28 +7,28 @@
     <subHeader>
             <Bar>
             <contentLeft>
-            <ComboBox items="{/EmployeeInfo}" selectionChange="Depart" id="Dept1" showClearIcon="true">
+            <SearchField search="onSearch" suggest="onSuggest" enableSuggestions="true" placeholder="Enter Your FirstName" width="500px">
+		    </SearchField>
+            </contentLeft>
+            <contentMiddle>
+                <ComboBox items="{/EmployeeInfo}" selectionChange="Depart" id="Dept1" showClearIcon="true" placeholder="Department" width="400px">
                 <items>
                     <core:Item key="{ID}" text="{Department}">
                     </core:Item>
                 </items>
             </ComboBox>
-            <ComboBox items="{/EmployeeInfo}" selectionChange="Postion" id="postion1" showClearIcon="true">
+            <ComboBox items="{/EmployeeInfo}" selectionChange="Postion" id="postion1" showClearIcon="true" placeholder="Position" width="400px">
                 <items>
                     <core:Item key="{ID}" text="{Position}">
                     </core:Item>
                 </items>
             </ComboBox>
-            <ComboBox items="{/EmployeeInfo}" selectionChange="BloodGroup" id="BG1" showClearIcon="true">
+            <ComboBox items="{/EmployeeInfo}" selectionChange="BloodGroup" id="BG1" showClearIcon="true" placeholder="BloodGroup" width="400px">
                 <items>
                     <core:Item key="{ID}" text="{BloodGroup}"></core:Item>
                 </items>
             </ComboBox>
-            </contentLeft>
-                <contentMiddle>
-                    <SearchField search="onSearch" suggest="onSuggest" enableSuggestions="true">
-		            </SearchField>
-                </contentMiddle>
+             </contentMiddle>
                     <contentRight>
                     <Button text="Create" press="onCreateDialog"></Button>
                     <Button text="Update" press="onUpdateDialog"></Button>
@@ -74,7 +74,7 @@
                 <Text text="{Department}"/>
                 <Text text="{Position}"/>
                 <!-- <Text text="{JoiningDate}"></Text> -->
-                <Text text="{path: 'JoiningDate', formatter: '.formatter.formatJoiningDate'}" />
+                <Text text="{path: 'JoiningDate', formatter: '.formatJoiningDate'}" />
             </cells>
         </ColumnListItem>
     </items>

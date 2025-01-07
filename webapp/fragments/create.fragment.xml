@@ -14,52 +14,33 @@ xmlns="sap.m">
                <VBox class="sapUiTinyMargin"> 
                 <!-- <Button icon="sap-icon://add" press="onOpenDialog"></Button> -->
                     <Label text="FirstName" />
-                    <Input id="efirstName" width="250px" editable="true"/>
+                    <Input id="efirstName" width="250px" editable="true" type="Text"/>
                     <Label text="Email"/>
-                    <Input id="eEmail" width="250px" editable="true"/>
+                    <Input id="eEmail" type="Email" width="250px" editable="true"/>
                     <Label text="Phone"/>
-                    <Input id="ePhone" width="250px" editable="true"/>
-                      <Label text="BloodGroup"/>
+                    <Input id="ePhone" width="250px" editable="true" type="Tel"/>
+                    <Label text="BloodGroup"/>
                     <Input id="eBloodGroup" width="250px" editable="true"/>
                     <Label text="Department" />
                     <Input id="edepartment" width="250px" editable="true"/>
                     <Label text="Position" />
-                    <Input id="eposition" width="250px" editable="true"/>
+                    <ComboBox id="ePosition" width="250px" editable="true" placeholder="Position" selectionChange="onPositon">
+                    <items>
+                        <core:Item text="Trainee" key="trainee"/>
+                        <core:Item text="Associate Consultant" key="associateConsultant"/>
+                        <core:Item text="Sr Associate Consultant" key="srAssociateConsultant"/>
+                        <core:Item text="Team Lead" key="teamLead"/>
+                    </items>
+            </ComboBox>
                     <Label text="Joining Date" />
-                    <Input id="eJoiningDate" width="250px" editable="true"/> 
+                    <Input id="eJoiningDate" width="250px" editable="true" type="Date"/> 
                </VBox>
- 
-        <!-- <Table id="TempTable" items="{employeeModel>/Employees}">
-    <columns>
-        <Column><Label text="FirstName"></Label></Column>
-        <Column><Label text="Email"></Label></Column>
-        <Column><Label text="Phone"></Label></Column>
-        <Column><Label text="BloodGroup"></Label></Column>
-        <Column><Label text="Department"></Label></Column>
-        <Column><Label text="Position"></Label></Column>
-        <Column><Label text="Joining Date"></Label></Column>
-    </columns>
-    <items>
-        <ColumnListItem>
-            <cells>
-                <Text text="{employeeModel>FirstName}"></Text>
-                <Text text="{employeeModel>Email}"></Text>
-                <Text text="{employeeModel>Phone}"></Text>
-                <Text text="{employeeModel>BloodGroup}"></Text>
-                <Text text="{employeeModel>Department}"></Text>
-                <Text text="{employeeModel>Position}"></Text>
-                <Text text="{employeeModel>JoiningDate}"></Text>
-            </cells>
-        </ColumnListItem>
-    </items>
-</Table> -->
-
-       <footer>
-               <Toolbar>
+        <footer>
+            <Toolbar>
                <ToolbarSpacer/>
-            <Button text="Submit" press="onSubmitDialog"></Button>
-            <Button text="Reset" press="onClear"></Button>
-            <Button text="Close" press="onclose"></Button>
+                    <Button text="Submit" press="onSubmitDialog"></Button>
+                    <Button text="Reset" press="onClear"></Button>
+                    <Button text="Close" press="onclose"></Button>
            </Toolbar>
         </footer>
 </Dialog>
