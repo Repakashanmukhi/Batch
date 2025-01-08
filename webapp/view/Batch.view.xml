@@ -11,21 +11,21 @@
 		    </SearchField>
             </contentLeft>
             <contentMiddle>
-                <ComboBox items="{/EmployeeInfo}" selectionChange="Depart" id="Dept1" showClearIcon="true" placeholder="Department" width="400px">
+                <ComboBox items="{Departments>/aDept}" selectionChange="Depart" id="Dept1" showClearIcon="true" placeholder="Department" width="400px">
                 <items>
-                    <core:Item key="{ID}" text="{Department}">
+                    <core:Item key="{Departments>}" text = "{Departments>}">
                     </core:Item>
                 </items>
             </ComboBox>
-            <ComboBox items="{/EmployeeInfo}" selectionChange="Postion" id="postion1" showClearIcon="true" placeholder="Position" width="400px">
+            <ComboBox items="{Positions>/aPosition}" selectionChange="Postion" id="postion1" showClearIcon="true" placeholder="Position" width="400px">
                 <items>
-                    <core:Item key="{ID}" text="{Position}">
+                    <core:Item key="{Positions>}" text="{Positions>}">
                     </core:Item>
                 </items>
             </ComboBox>
-            <ComboBox items="{/EmployeeInfo}" selectionChange="BloodGroup" id="BG1" showClearIcon="true" placeholder="BloodGroup" width="400px">
+            <ComboBox items="{BGS>/aBG}" selectionChange="BloodGroup" id="BG1" showClearIcon="true" placeholder="BloodGroup" width="400px">
                 <items>
-                    <core:Item key="{ID}" text="{BloodGroup}"></core:Item>
+                    <core:Item key="{BGS>}" text="{BGS>}"></core:Item>
                 </items>
             </ComboBox>
              </contentMiddle>

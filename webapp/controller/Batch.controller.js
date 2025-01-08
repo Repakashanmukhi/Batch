@@ -8,18 +8,59 @@ sap.ui.define([
 ], (Controller,JSONModel,formatter,MessageToast,Filter,FilterOperator) => {
     "use strict";
      var that;
-     var oSelectedPath =[]
     return Controller.extend("batchoperations.controller.Batch", {
         formatter:formatter,
         onInit() 
         {
             that=this;
+            // Model to get unique values for combo box
+            
+           var oUnique= that.getOwnerComponent().getModel();
+           oUnique.read("/EmployeeInfo",{
+            success: function(oData)
+                 {
+                    var uniqueDepartments = [];
+                    var uniquePosition = [];
+                    var uniqueBloodGroup=[];
+                    oData.results.forEach(function(employee) {
+                        var department = employee.Department;                 
+                        if (uniqueDepartments.indexOf(department) === -1) {
+                            uniqueDepartments.push(department);
+                        }
+                        var position = employee.Position;
+                        if (uniquePosition.indexOf(position) === -1) {
+                            uniquePosition.push(position);
+                        }
+                        var BloodGroup = employee.BloodGroup;
+                        if (uniqueBloodGroup.indexOf(BloodGroup) === -1) {
+                            uniqueBloodGroup.push(BloodGroup);
+                        }
+                        // var oDept = new sap.ui.model.json.JSONModel(uniqueDepartments);
+                        // that.getView().setModel(oDept, "uniqueDepart");
+                        var uniqueDepart= new JSONModel({
+                            aDept: uniqueDepartments,
+                            aPosition: uniquePosition,
+                            aBG:uniqueBloodGroup
+                        });
+                        that.getView().setModel(uniqueDepart, "Departments");
+                        that.getView().setModel(uniqueDepart, "Positions");
+                        that.getView().setModel(uniqueDepart, "BGS");
+                    }); 
+                    console.log(uniqueDepartments);  
+                },
+                error: function(oError) {
+                    console.log("Error fetching data:", oError);
+                }
+           })
+           
+
+        //    console.log(oUnique)
             // Creating JSON model to store data temporarily using array
             var oModel=that.getOwnerComponent().getModel();
             that.getView().setModel(oModel)
             var TempEmployee = new JSONModel({
                 Employees: []
-            });
+            }); 
             that.getView().setModel(TempEmployee, "employeeModel");
             // Opening create fragment 
             if(!that.create){
@@ -60,7 +101,6 @@ sap.ui.define([
                 Position: sap.ui.getCore().byId("ePosition").getSelectedItem(),
                 JoiningDate: sap.ui.getCore().byId("eJoiningDate").getValue()
             };
-        
             aEmployees.push(TempEmp);  
             oEmployeeModel.setProperty("/Employees", aEmployees);              
             that.onClear(); 
@@ -78,9 +118,9 @@ sap.ui.define([
         },
         // To store the created data into the OData model (Backside table)
         onSubmitDialog: function() {
-                var oEmployeeModel = this.getView().getModel("employeeModel");
+                var oEmployeeModel = that.getView().getModel("employeeModel");
                 var aEmployees = oEmployeeModel.getProperty("/Employees");
-                var oData = this.getOwnerComponent().getModel(); 
+                var oData = that.getOwnerComponent().getModel(); 
                 for (var i = 0; i < aEmployees.length; i++) 
                 {
                     var oEmployee = aEmployees[i];
@@ -97,15 +137,18 @@ sap.ui.define([
                         success: function (response) 
                         {
                             MessageToast.show("Employee data submitted successfully!");
-                        },
+                            that.getOwnerComponent().getModel();
+                            console.log(response)
+                        }.bind(that),
                         error: function (error) 
                         {
                             MessageToast.show("Error submitting employee data!");
-                        }
+                            console.log(error)
+                        }.bind(that)
                     });
                 }
                 oEmployeeModel.setProperty("/Employees", []);
-                that.onclose();
+                // that.onclose();
             },
             // Selects the required record 
             oSelectedItems:function(oEvent){
@@ -132,18 +175,11 @@ sap.ui.define([
             oSelectedEmployeesModel.setData({ selectedEmployees: selectedEmployees });
             that.update.setModel(oSelectedEmployeesModel, "selectedEmployeesModel");
         },
-        // Stores the updated data into the table
-        onSave: function(){
+        onSave: function() {
             var oSelectedEmployeesModel = that.update.getModel("selectedEmployeesModel");
             var aSelectedEmployees = oSelectedEmployeesModel.getProperty("/selectedEmployees");
             var oEmployeeModel = this.getView().getModel("employeeModel");
             var aEmployees = oEmployeeModel.getProperty("/Employees");
-             var index = aEmployees.findIndex(function (oEmployee) {
-                    return oEmployee.ID === aSelectedEmployees.ID;
-                });
-                if (index !== -1) {
-                    aEmployees[index] = Object.assign({}, aEmployees[index], oSelectedEmployee);
-                }
             for (var i = 0; i < aSelectedEmployees.length; i++) {
                 var oEmployee = aSelectedEmployees[i];
                 var oUpdatedEmployee = {
@@ -154,20 +190,19 @@ sap.ui.define([
                     Department: oEmployee.Department,
                     Position: oEmployee.Position,
                     JoiningDate: oEmployee.JoiningDate
-                };        
+                };
                 var oData = this.getOwnerComponent().getModel();
-                var updatePath = "/EmployeeInfo,oData (' "+oUpdatedEmployee.FirstName+" ')";
-                oData.update(updatePath, oUpdatedEmployee,{
-                    success: function()
-                    {
+                var updatePath = "/EmployeeInfo(" + oEmployee.ID + ")";
+                oData.update(updatePath, oUpdatedEmployee, {
+                    success: function() {
                         sap.m.MessageToast.show("Record updated successfully!");
+                        that.onClose();
                     },
-                error: function (error) 
-                {
-                console.log(error)
-                MessageToast.show("Cannot update record");
-                }
-           })
+                    error: function(error) {
+                        console.log(error);
+                        sap.m.MessageToast.show("Cannot update record");
+                    }
+                });
             }
         },
         onClose: function(){
@@ -197,7 +232,7 @@ sap.ui.define([
                         }
                     });         
                 } else {
-                    sap.m.MessageToast.show("All selected records deleted successfully!");
+                    sap.m.MessageToast.show("Selected records deleted successfully!");
                 }
             };
             deleteNextRecord();
@@ -205,30 +240,50 @@ sap.ui.define([
         // Combo box for department field
         Depart: function(oEvent){
         var oComboBox=oEvent.getSource();
-        var sSelectedkey=oComboBox.getSelectedKey();
-        // var oModel=that.getOwnerComponent().getModel();
-        // if(!sSelectedkey){
-        //     oModel.setProperty("/EmployeeInfo",oModel.getProperty("/Employees"));
-        //     return;
-        // }
+        var sSelectedkeyD=oComboBox.getSelectedKey();
+        var postion= that.byId("postion1").getSelectedKey();
+        var BloodGroup= that.byId("BG1").getSelectedKey();
         var aFilter=[];
-            if(sSelectedkey){
-                var oFilter = new Filter("ID", FilterOperator.EQ, sSelectedkey);
-                aFilter.push(oFilter);
+            if(sSelectedkeyD){
+                var oFilterD = new Filter("Department", FilterOperator.EQ, sSelectedkeyD);
+                aFilter.push(oFilterD);
+            }
+            if(sSelectedkeyD && postion && BloodGroup){
+                var oFilter = new Filter({filters: [
+                    new Filter("Position", FilterOperator.EQ, postion),
+                    // new Filter("Department", FilterOperator.EQ, sSelectedkeyD),
+                    new Filter("BloodGroup", FilterOperator.EQ, BloodGroup),
+                  ],
+                  and: false,
+                });
+                oBinding.filter(oFilter)
             }
             var oBind=that.getView().byId("employeeTable")
             var oBinding=oBind.getBinding("items");
             oBinding.filter(aFilter);
+
          },
          // Combo box for Position field
          Postion: function(oResponse){
             var oComboBox=oResponse.getSource();
-            var sSelectedkey=oComboBox.getSelectedKey();
+            var sSelectedkeyP=oComboBox.getSelectedKey();
+            var department= that.byId("Dept1").getSelectedKey();
+            var BloodGroup= that.byId("BG1").getSelectedKey();
             var aFilter=[];
-                if(sSelectedkey){
-                    var oFilter = new Filter("ID", FilterOperator.EQ, sSelectedkey);
-                    aFilter.push(oFilter);
+                if(sSelectedkeyP){
+                    var oFilterP = new Filter("Positon", FilterOperator.EQ, sSelectedkeyP);
+                    aFilter.push(oFilterP);
                 }
+                if(department && sSelectedkeyP && BloodGroup){
+                    var oFilter = new Filter({filters: [
+                        // new Filter("Position", FilterOperator.EQ, sSelectedkeyP),
+                        new Filter("Department", FilterOperator.EQ, department),
+                        new Filter("BloodGroup", FilterOperator.EQ, BloodGroup),
+                      ],
+                      and: false,
+                    });
+                    oBinding.filter(oFilter)
+                 }
                 var oBind=that.getView().byId("employeeTable")
                 var oBinding=oBind.getBinding("items");
                 oBinding.filter(aFilter);
@@ -236,12 +291,24 @@ sap.ui.define([
         // Combo box for Blood group field
         BloodGroup: function(oReact){
             var oComboBox=oReact.getSource();
-            var sSelectedkey=oComboBox.getSelectedKey();
+            var sSelectedkeyB=oComboBox.getSelectedKey();
+            var department= that.byId("Dept1").getSelectedKey();
+            var postion= that.byId("postion1").getSelectedKey();
             var aFilter=[];
-                if(sSelectedkey){
-                    var oFilter = new Filter("ID", FilterOperator.EQ, sSelectedkey);
-                    aFilter.push(oFilter);
+                if(sSelectedkeyB){
+                    var oFilterB = new Filter("BloodGroup", FilterOperator.EQ, sSelectedkeyB);
+                    aFilter.push(oFilterB);
                 }
+                if(department && postion && sSelectedkeyB){
+                    var oFilter = new Filter({filters: [
+                        new Filter("Position", FilterOperator.EQ, postion),
+                        new Filter("Department", FilterOperator.EQ, department),
+                        // new Filter("BloodGroup", FilterOperator.EQ, sSelectedkeyB),
+                      ],
+                      and: false,
+                    });
+                    oBinding.filter(oFilter)
+                 }
                 var oBind=that.getView().byId("employeeTable")
                 var oBinding=oBind.getBinding("items");
                 oBinding.filter(aFilter);
@@ -252,10 +319,10 @@ sap.ui.define([
             var sSearch = aSearch.getSource().getValue();
             if(sSearch){
                 var aFilter=new Filter({
-                    path: "FirstName",
+                    path: 'FirstName',
                     operator: FilterOperator.Contains,
-                    value1 : sSearch,
-                    caseSensitive: false});
+                    value1: sSearch,
+                    caseSensitive : false});
                 oFilter.push(aFilter)
             }
             var oBind=that.getView().byId("employeeTable")
@@ -264,3 +331,5 @@ sap.ui.define([
 		},
     });
 });
+
+ 
