@@ -82,7 +82,7 @@ xmlns="sap.m">
                         <core:Item text="Trainee" key="trainee"/>
                         <core:Item text="Associate Consultant" key="associateConsultant"/>
                         <core:Item text="Sr Associate Consultant" key="srAssociateConsultant"/>
-                        <core:Item text="Team Lead" key="teamLead"/>
+                        <core:Item text="Technical Lead" key="teamLead"/>
                     </items>
             </ComboBox>
                         <Input value="{selectedEmployeesModel>JoiningDate}" type="Date"></Input>

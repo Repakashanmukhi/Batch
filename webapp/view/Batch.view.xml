@@ -11,28 +11,29 @@
 		    </SearchField>
             </contentLeft>
             <contentMiddle>
-                <ComboBox items="{Departments>/aDept}" selectionChange="Depart" id="Dept1" showClearIcon="true" placeholder="Department" width="400px">
-                <items>
-                    <core:Item key="{Departments>}" text = "{Departments>}">
-                    </core:Item>
-                </items>
-            </ComboBox>
-            <ComboBox items="{Positions>/aPosition}" selectionChange="Postion" id="postion1" showClearIcon="true" placeholder="Position" width="400px">
+                <MultiComboBox items="{Departments>/aDept}" selectionChange="onSelectionChange" id="Dept1" showClearIcon="true" placeholder="Department" width="400px">
+                    <items>
+                        <core:Item key="{Departments>}" text="{Departments>}">
+                        </core:Item>
+                    </items>
+                </MultiComboBox>
+            <MultiComboBox items="{Positions>/aPosition}" selectionChange="Position" id="position1" showClearIcon="true" placeholder="Position" width="400px">
                 <items>
                     <core:Item key="{Positions>}" text="{Positions>}">
                     </core:Item>
                 </items>
-            </ComboBox>
-            <ComboBox items="{BGS>/aBG}" selectionChange="BloodGroup" id="BG1" showClearIcon="true" placeholder="BloodGroup" width="400px">
+            </MultiComboBox>
+            <MultiComboBox items="{BGS>/aBG}" selectionChange="BloodGroup" id="BG1" showClearIcon="true" placeholder="BloodGroup" width="400px">
                 <items>
                     <core:Item key="{BGS>}" text="{BGS>}"></core:Item>
                 </items>
-            </ComboBox>
+            </MultiComboBox>
              </contentMiddle>
                     <contentRight>
                     <Button text="Create" press="onCreateDialog"></Button>
                     <Button text="Update" press="onUpdateDialog"></Button>
                     <Button text="Delete" press="onDelete"></Button>
+                    <Button text="Navigate" press="MultiNavgate"></Button>
                 </contentRight>
             </Bar>
         </subHeader> 
