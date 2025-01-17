@@ -33,7 +33,6 @@
                     <Button text="Create" press="onCreateDialog"></Button>
                     <Button text="Update" press="onUpdateDialog"></Button>
                     <Button text="Delete" press="onDelete"></Button>
-                    <Button text="Navigate" press="MultiNavgate"></Button>
                 </contentRight>
             </Bar>
         </subHeader> 
@@ -82,3 +81,6 @@
 </Table>
     </Page>
 </mvc:View>
+
+
+ 
