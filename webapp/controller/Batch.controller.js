@@ -184,7 +184,7 @@ sap.ui.define([
            var oSelectedEmployeesModel = new sap.ui.model.json.JSONModel();
            oSelectedEmployeesModel.setData({ selectedEmployees: selectedEmployees });
            that.update.setModel(oSelectedEmployeesModel, "selectedEmployeesModel");
-       },
+        },
 
        // Save the updated employee data to the backend
        onSave: function () {
@@ -251,9 +251,7 @@ sap.ui.define([
                            deleteNextRecord(); 
                        }
                    });
-               } else {
-                   sap.m.MessageToast.show("No row selected for deletion");
-               }
+               } 
            };
 
            deleteNextRecord(); 
@@ -387,7 +385,7 @@ sap.ui.define([
         var aItems = oTable.getItems(); 
         // Creating an array to push each and every column
         var aTableData=[];
-        // Using forEach method to call a function for each element in array 
+        // Using forEach method to call a function for each element in array    
         aItems.forEach(function (oItem) {
         // Binding the context 
             var oBindingContext = oItem.getBindingContext();
